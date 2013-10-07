@@ -26,7 +26,7 @@ return array(
 	),
 	'components' => array(
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
+			'connectionString' => 'mysql:host=localhost;port=3307;dbname=ma_internet_v2',
 		),
 		'errorHandler' => array(
 			'errorAction' => 'site/error',
