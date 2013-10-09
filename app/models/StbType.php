@@ -28,7 +28,7 @@ class StbType extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'iptv_stbtypes';
+		return 'iptv_StbTypes';
 	}
 
 	/**

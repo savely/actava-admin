@@ -32,7 +32,7 @@ class Stb extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'iptv_stb';
+		return 'iptv_Stb';
 	}
 
 	/**

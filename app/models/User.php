@@ -58,7 +58,7 @@ class User extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'iptv_users';
+		return 'iptv_Users';
 	}
 
 	/**

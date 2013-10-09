@@ -28,7 +28,7 @@ class lang extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'g_languages';
+		return 'g_Languages';
 	}
 
 	/**
