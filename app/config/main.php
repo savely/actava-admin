@@ -30,7 +30,12 @@ return array(
 	'controllerMap' => array(),
 
 	// application modules
-	'modules' => array(),
+    'modules'=>array(
+
+        'accounts'=>array(
+            'class' =>'application.modules.accounts.AccountsModule',
+            )
+        ),    
 
 	// application components
 	'components' => array(
@@ -52,10 +57,9 @@ return array(
 			'showScriptName' => false,
 
 			'rules' => array(
-				// default rules
-				'<controller:\w+>/<id:\d+>' => '<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 			),
 		),
 		'user' => array(

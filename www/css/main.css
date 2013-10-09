@@ -3,6 +3,19 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+   
+.backend-page {
+    margin: 20px auto !important;
+    width: 1215px !important;
+}
+#content {
+    float: right;
+    width: 1070px;
+}
+.hide {
+    display: none;
+}
+   
 
 
 

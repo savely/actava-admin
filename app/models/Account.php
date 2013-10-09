@@ -71,7 +71,7 @@ class Account extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'accounts';
+		return 'iptv_accounts';
 	}
 
 	/**
@@ -94,6 +94,14 @@ class Account extends CActiveRecord
 			array('id, active, contract_number, name, surname, email', 'safe', 'on'=>'search'),
 		);
 	}
+    
+    public function behaviors() {
+        return array(
+            'restore-state'=>array(
+                'class'=>'PersistGridStateBehavior',
+                'defaultSorting' => 'id DESC',
+        ));
+    }    
 
 	/**
 	 * @return array relational rules.
@@ -114,14 +122,14 @@ class Account extends CActiveRecord
 	{
 		return array(
 			'id' => _('ID'),
-			'active' => _('Is Active'),
-            'name' => __('First name'),
-			'surname' => __('last name'),
-            'contract_number' => __('Contract'),
-			'email' => __('Email'),
-            'pass' => __('Password'),
-            'passNew' => __('New password'),
-			'first_login' => __('First login'),
+			'active' => Yii::t('main', 'Is Active'),
+            'name' => Yii::t('main', 'First name'),
+			'surname' => Yii::t('main', 'last name'),
+            'contract_number' => Yii::t('main', 'Contract'),
+			'email' => Yii::t('main', 'Email'),
+            'pass' => Yii::t('main', 'Password'),
+            'passNew' => Yii::t('main', 'New password'),
+			'first_login' => Yii::t('main', 'First login'),
 		);
 	}
 
@@ -137,7 +145,10 @@ class Account extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('active',$this->role_id);
+        $criteria->compare('active',$this->active);
+        $criteria->compare('name',$this->name, true);
+        $criteria->compare('surname',$this->surname, true);
+		$criteria->compare('contract_number',$this->contract_number, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

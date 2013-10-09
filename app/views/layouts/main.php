@@ -27,6 +27,8 @@
 	<meta name="viewport" content="width=device-width">
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/params.css" />    
+    <link rel="stylesheet" type="text/css" href="css/main.css" />    
 	<style>
 		body {
 			padding-top: 60px;
@@ -47,6 +49,12 @@
 
 <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
 
+<?php
+     $module = Yii::app()->controller->getModule(); 
+     $moduleId =  ($module == null) ? 'home' : strtolower($module->id);
+     
+?>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container">
@@ -55,14 +63,13 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="#">Project name</a>
+			<a class="brand" href="#">Administrative</a>
 
 			<div class="nav-collapse collapse">
 				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
-					<li class="dropdown">
+					<li class="<? echo $moduleId == 'home' ? 'active': '' ?>"><a href="<?=Yii::app()->createAbsoluteUrl('/')?>">Home</a></li>
+					<li class="<? echo $moduleId == 'accounts' ? 'active': '' ?>" ><a href="<?=Yii::app()->createAbsoluteUrl('accounts')?>">Accounts</a></li>
+					<!--<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Action</a></li>
@@ -73,22 +80,23 @@
 							<li><a href="#">Separated link</a></li>
 							<li><a href="#">One more separated link</a></li>
 						</ul>
-					</li>
+					</li> -->
 				</ul>
-				<form class="navbar-form pull-right">
+				<!--<form class="navbar-form pull-right">
 					<input class="span2" type="text" placeholder="Email">
 					<input class="span2" type="password" placeholder="Password">
 					<button type="submit" class="btn">Sign in</button>
-				</form>
+				</form> -->
 			</div>
 			<!--/.nav-collapse -->
 		</div>
 	</div>
 </div>
-
+<div id="main" class="clearfix" style="margin: 0 auto; width: 90%;">
 <?php echo $content; ?>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+</div>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>-->
 <script src="js/libs/bootstrap.min.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script><script>
