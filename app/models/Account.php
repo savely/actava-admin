@@ -71,7 +71,7 @@ class Account extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'iptv_accounts';
+		return 'iptv_Accounts';
 	}
 
 	/**
