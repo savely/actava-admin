@@ -13,6 +13,14 @@ class DefaultController extends EController
      $this->render('index', array('model' => $model));
     }
     
+    public function actionActivate($active){
+        $id = Yii::app()->request->getParam('id');
+         Account::setActive($id, $active);
+         Yii::app()->end();
+    }  
+    
+      
+    
     public function accessRules()
     {
         return array();

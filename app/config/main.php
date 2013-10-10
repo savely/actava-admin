@@ -50,7 +50,7 @@ return array(
 
 		'clientScript' => array(
 			'scriptMap' => array(
-				'bootstrap.min.css' => false,
+				'bootstrap.min.css' => true,
 				'bootstrap.min.js' => false,
 				'bootstrap-yii.css' => false
 			)

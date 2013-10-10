@@ -54,7 +54,8 @@
  
 class Account extends CActiveRecord
 {
-    
+    const ON  = 1;
+    const OFF = 0;    
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -91,7 +92,7 @@ class Account extends CActiveRecord
             array('allow_sync', 'in', 'range' => array('y', 'n'), 'allowEmpty' => true),            
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, active, contract_number, name, surname, email', 'safe', 'on'=>'search'),
+			array('id, active, contract_number, name, surname, email, first_login', 'safe', 'on'=>'search'),
 		);
 	}
     
@@ -148,11 +149,18 @@ class Account extends CActiveRecord
         $criteria->compare('active',$this->active);
         $criteria->compare('name',$this->name, true);
         $criteria->compare('surname',$this->surname, true);
-		$criteria->compare('contract_number',$this->contract_number, true);
+        $criteria->compare('contract_number',$this->contract_number, true);
+		$criteria->compare('first_login',$this->first_login, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination' => array('pageSize' => 10),
 		));
 	}
+
+    static public function setActive($id, $active) {
+      $account = Account::model()->findByPk($id);
+      $account->active = $active ? self::ON : self::OFF;
+      $account->save(true, array('active'));
+    }
 }

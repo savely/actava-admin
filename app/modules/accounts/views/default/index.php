@@ -1,7 +1,19 @@
 <?php 
 /* @var $this DefaultController */
 
-//get model class for view customizing
+//create datetime picker for first login filter
+$modelClass = get_class($model);
+
+$dateFilter = $this->widget('yiiwheels.widgets.datepicker.WhDatePicker', array(
+                    'name'=>$modelClass.'[first_login]',
+                    'value'=>$model->first_login,
+                    'pluginOptions' => array(
+                        'format' => 'yyyy-mm-dd',
+                    ),
+                    'htmlOptions' => array(
+                        'id'=>$modelClass.'_first_login',
+                    ),
+                ), true);
 
 $this->widget('bootstrap.widgets.TbBreadcrumb', array(
     'links'=>array(
@@ -62,23 +74,31 @@ $idGrid = 'accounts-grid';
             'name'=>'contract_number',
             'type'=>'raw',
         ),
+        
+        array(
+            'name'=>'first_login',
+            'type'=>'raw',
+            'htmlOptions'=>array('style'=>'width: 150px'),
+            'filter'=>$dateFilter,
+            'filterInputOptions'=>array('style'=>'width: 150px'),
+            'value'=>'$data->first_login',
+        ),        
 
         
     );
     
     $buttoncolumn = array(
             'htmlOptions' => array('nowrap'=>'nowrap', 'style' => 'width: 150px'),
-            'class'=>'common.widgets.PButtonColumn',
-            //'deleteButtonImageUrl' => false,
-            //'deleteButtonIcon' => false,
+            'class'=>'TbButtonColumn',
             'template' => '{update}{delete}{active}'  ,
             
-            'buttons' => array('active' => array(
-                                            'labelExpression' => '$data->post->is_active == 1 ?  Yii::t("main","Off") : Yii::t("main","On")',
-                                            'url' => 'Yii::app()->controller->createUrl("setstatus", array("id" => $data->post_id, "is_active" => (!$data->post->is_active) ? 1:0))',
-                                            'cssClassExpression' => '$data->post->is_active == 1 ? "button on fl-l mr-5" : "button off fl-l mr-5"',
+          'buttons' => array(  'active' =>  array(
+                                            'labelExpression' => '$data->active == 1 ?  Yii::t("main","Off") : Yii::t("main","On")',
+                                            'url' => 'Yii::app()->controller->createUrl("activate", array("id" => $data->id, "active" => (!$data->active) ? 1:0))',
+                                            //'cssClassExpression' => '$data->active == 1 ? "button on fl-l mr-5" : "button off fl-l mr-5"',
+//                                            'imageUrl'=>'$data->active == 0 ? "images/icons/inactive.png" : "images/icons/active.png"',
+                                            // 'icon' => 'on', 
                                             'options' => array(
-                                                'rel' => 'nofollow',
                                                 'ajax' => array(
                                                     'type' => 'get', 
                                                     'url'=>'js:$(this).attr("href")', 
@@ -87,13 +107,12 @@ $idGrid = 'accounts-grid';
                                                 ), 
                                             ),
                                            ),
-
                            'delete'   => array(
-                                           'label'=>Yii::t("main","Delete"),
-                                           'url' => 'Yii::app()->controller->createUrl("delete", array("id" => $data->post_id))',
+                                           //'label'=>Yii::t("main","Delete"),
+                                           'icon' => 'remove',
+                                           'url' => 'Yii::app()->controller->createUrl("delete", array("id" => $data->id))',
                                            'options' => array(
-                                                'class' => 'button delete fl-l mr-5', 
-                                                'rel' => 'nofollow',
+                                                //'class' => 'button btn btn-small btn-info', 
                                                 'ajax' => array(
                                                     'type' => 'post', 
                                                     'url'=>'js:$(this).attr("href")', 
@@ -107,22 +126,20 @@ $idGrid = 'accounts-grid';
                                                     'success' => 'js:onSuccess', 
                                                     )
                                            ),
-                                           'htmlTemplate' => '<span><b></b></span>',
                                            ), 
 
                            'update'  => array(
                                             'label'=>Yii::t("main", "Edit"),
-                                            'url' => 'Yii::app()->controller->createUrl("update", array("id" => $data->post_id))',
+                                            'icon' => 'edit',
+                                            'url' => 'Yii::app()->controller->createUrl("update", array("id" => $data->id))',
                                             'options' => array(
-                                                'class' => 'button edit fl-l mr-5', 
-                                                'rel' => 'nofollow',
+                                               // 'class' => 'button edit fl-l mr-5', 
                                             ),
-                                            'htmlTemplate' => '<span><b></b></span>',
                                            ),
                            )                                          
             );
     
-    //$columns[] = $buttoncolumn;
+    $columns[] = $buttoncolumn;
                 
                 
 $this->widget('bootstrap.widgets.TbGridView', array(
@@ -131,10 +148,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'filter'=> $model,
     'type'=>'striped', //'striped, condensed, bordered, hover',
     'htmlOptions' => array('class' => 'table-list'),
-    //'rowCssClassExpression' => '($row % 2 ? "even" : "odd")." bColor pt-5 pb-5 pl-10 pr-10 mb-5"',
     'template'=>"{items}\n{pager}",
-//    'beforeAjaxUpdate' => 'onBeforeSend',
-//    'afterAjaxUpdate' => 'reinstallDatePicker',
+    'beforeAjaxUpdate' => 'onBeforeSend',
+    'afterAjaxUpdate' => 'reinstallDatePicker',
     'columns'=>$columns,
     )
 ); 
@@ -163,12 +179,12 @@ Yii::app()->getClientScript()->registerScript('jsLoading', $js);
 //$js1 = "jQuery.datepicker.regional['ru'].dateFormat = 'yyyy-mm-dd';";
 //Yii::app()->getClientScript()->registerScript('setDateFormat', $js1, CClientScript::POS_END);
 
-/*Yii::app()->clientScript->registerScript('re-install-date-picker', "
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
         function reinstallDatePicker(id, data) {
-            $('#".$modelClass."_publication_date').datepicker({format: 'yyyy-mm-dd'});
+            $('#".$modelClass."_first_login').datepicker({format: 'yyyy-mm-dd'});
             onAfterSend();
         }
-    ");*/
+    ");
 
 
 ?>
