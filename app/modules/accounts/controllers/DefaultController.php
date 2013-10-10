@@ -19,11 +19,23 @@ class DefaultController extends EController
          Yii::app()->end();
     }  
     
-      
+    public function actionCreate()
+    {
+        $model = new Account();
+        
+        $this->render('edit_form', array('model' => $model));
+    }    
+    
+    public function actionUpdate()
+    {
+       $this->render('form', array('model' => $model));
+    }     
     
     public function accessRules()
     {
         return array();
-    }    
+    }
+    
+        
 }
 ?>

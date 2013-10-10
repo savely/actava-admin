@@ -125,7 +125,7 @@ class Account extends CActiveRecord
 			'id' => _('ID'),
 			'active' => Yii::t('main', 'Is Active'),
             'name' => Yii::t('main', 'First name'),
-			'surname' => Yii::t('main', 'last name'),
+			'surname' => Yii::t('main', 'Last name'),
             'contract_number' => Yii::t('main', 'Contract'),
 			'email' => Yii::t('main', 'Email'),
             'pass' => Yii::t('main', 'Password'),

@@ -26,9 +26,9 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/params.css" />    
-    <link rel="stylesheet" type="text/css" href="css/main.css" />    
+	<link rel="stylesheet" href="<?=Yii::app()->createAbsoluteUrl('/')?>/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=Yii::app()->createAbsoluteUrl('/')?>/css/params.css" />    
+    <link rel="stylesheet" type="text/css" href="<?=Yii::app()->createAbsoluteUrl('/')?>/css/main.css" />    
 	<style>
 		body {
 			padding-top: 60px;
@@ -38,7 +38,7 @@
 
 	<link rel="stylesheet" href="css/main.css">
 
-	<script src="js/libs/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+	<script src="<?=Yii::app()->createAbsoluteUrl('/')?>/js/libs/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -97,9 +97,9 @@
 </div>
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 <!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>-->
-<script src="js/libs/bootstrap.min.js"></script>
-<script src="js/plugins.js"></script>
-<script src="js/main.js"></script><script>
+<script src="<?=Yii::app()->createAbsoluteUrl('/')?>/js/libs/bootstrap.min.js"></script>
+<script src="<?=Yii::app()->createAbsoluteUrl('/')?>/js/plugins.js"></script>
+<script src="<?=Yii::app()->createAbsoluteUrl('/')?>j/s/main.js"></script><script>
 	var _gaq = [
 		['_setAccount', 'UA-XXXXX-X'],
 		['_trackPageview']
