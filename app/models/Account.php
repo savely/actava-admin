@@ -40,7 +40,7 @@
  * @property string $deactivate_date //datetime
  * @property integer $test_duration
  * @property string $external_id
- * @property string $last_update //timestamp
+ * @property string $lastUpdate //timestamp
  * @property string $EditSequence //???
  * @property string $comments //TEXT
  * @property double $bonuses  
@@ -56,6 +56,8 @@ class Account extends CActiveRecord
 {
     const ON  = 1;
     const OFF = 0;    
+    
+    private $_newPassword = '';
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -74,6 +76,18 @@ class Account extends CActiveRecord
 	{
 		return 'iptv_Accounts';
 	}
+    
+    public function setNewPassword($value) {
+      $this->_newPassword = $value;  
+    }
+
+    public function getNewPassword() {
+       return $this->_newPassword;  
+    }
+    
+    public function setActive($value) {
+      $this->active = $value ? self::ON : self::OFF;  
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -84,7 +98,7 @@ class Account extends CActiveRecord
 		// will receive user inputs.
 		return array(
             array('contract_number, active_date, birth_date, ', 'default', 'value'=>NULL),
-            array('last_update', 'default', 'value'=> new CDbExpression('NOW()'), 'setOnEmpty'=>false,'on'=>'update'),
+            array('lastUpdate', 'default', 'value'=> new CDbExpression('NOW()'), 'setOnEmpty'=>false,'on'=>'update'),
             array('create_account', 'default', 'value'=> new CDbExpression('NOW()'), 'setOnEmpty'=>false,'on'=>'insert'),
             array('email', 'email'),            
             array('active', 'in', 'range' => array('0', '1'), 'allowEmpty' => false),            
@@ -92,7 +106,9 @@ class Account extends CActiveRecord
             array('allow_sync', 'in', 'range' => array('y', 'n'), 'allowEmpty' => true),            
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, active, contract_number, name, surname, email, first_login', 'safe', 'on'=>'search'),
+            array('id, active, contract_number, name, surname, email, first_login', 'safe', 'on'=>'search'),
+            array('active, newPassword, contract_number, name, surname, email, activate_date, deactivate_date', 'safe', 'on'=>'create'),
+			array('active, newPassword, name, surname, email, activate_date, deactivate_date', 'safe', 'on'=>'update'),
 		);
 	}
     
@@ -158,9 +174,81 @@ class Account extends CActiveRecord
 		));
 	}
 
-    static public function setActive($id, $active) {
+    static public function setActiveById($id, $active) {
       $account = Account::model()->findByPk($id);
       $account->active = $active ? self::ON : self::OFF;
       $account->save(true, array('active'));
     }
+    
+    public function encrypt($str) {
+      return md5($str);  
+    }
+
+        /*
+        / - the following symbol as is
+        y - year (in a format 10)
+        Y - year (in a format 2010)
+        m - month number (in a format 01)
+        M - month the text (in format Jan)
+        d - day (in a format 01)
+        H - hours (in a format 01)
+        i - minutes (in a format 01)
+        s - seconds (in a format 01)
+        I4 - id an account (after I quantity of symbols in number display - 1-9. If it is not enough symbols, the real quantity) is used
+        N4 - Serial number for days (after N quantity of symbols in number display - 1-9. If it is not enough symbols, the real quantity) is used
+
+        10120090001
+        ymdN4
+        1012090001
+
+        */
+    
+    public static function generateContractOfAccount($format = 'ymdN4')
+    {
+
+        $change=Array();
+        $change['Y']=date('Y');
+        $change['M']=date('M');
+        $change['m']=date('m');
+        $change['y']=date('y');
+        $change['d']=date('d');
+        $change['H']=date('H');
+        $change['i']=date('i');
+        $change['s']=date('s');
+        $strSql = "SELECT max(id) +1 as a FROM iptv_Accounts;";
+        $command = Yii::app()->db->createCommand($strSql);
+        $change['I'] =  $command->queryScalar();
+        $strSql     = "SELECT CAST((SUBSTRING(max(contract_number),CHARACTER_LENGTH(max(contract_number))-3,4)) as unsigned integer) +1 as a FROM iptv_Accounts     where create_account>='".date('Y').'-'.date('m').'-'.date('d')." 00:00:00';";
+        $command = Yii::app()->db->createCommand($strSql);
+        $change['N']=(int) $command->queryScalar();
+        $changeI=strlen($change['I']);
+        $changeN=strlen($change['N']);
+
+        $flag=0;
+        $str='';
+        for ($t=0; $t<strlen($format); $t++)
+        {
+            $element=substr($format,$t,1);
+            if ($flag>0)
+            {
+                if ($flag==1) {$str.=$element;}
+                elseif ($flag==2)
+                {
+                    if ($changeI<$element) {$str.=str_repeat("0",$element-$changeI).$change['I'];}
+                    else {$str.=$change['I'];}
+                }
+                elseif ($flag==3)
+                {
+                    if ($changeN<$element) {$str.=str_repeat("0",$element-$changeN).$change['N'];}
+                    else {$str.=$change['N'];}
+                }
+                $flag=0;
+            }
+            elseif ($element=='/') {$flag=1;}
+            elseif ($element=='I') {$flag=2;}
+            elseif ($element=='N') {$flag=3;}
+            else {$str.=@$change[$element];}
+        }
+        return $str;
+    }    
 }

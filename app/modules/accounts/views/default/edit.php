@@ -30,28 +30,25 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ));
 
     //show errors (for all models)
-    echo $form->errorSummary($model, null, null, array('class' => 'alert-error'));
-   
+echo $form->errorSummary($model, null, null, array('class' => 'alert-error'));
+$accountContent =  $this->renderPartial('_edit_account' , array('model'=> $model,
+                                              'form' => $form,
+                                               ), true, false);
+                                               
+   $this->widget('bootstrap.widgets.TbTabs', array(
+    'type'=>'tabs',
+    'tabs'=>array(
+        array('label'=> Yii::t('main', 'Account'), 'content'=> $accountContent, 'active' => true, 'id' => 'tab1'),
+        array('label'=> Yii::t('main', 'Users'), 'content'=> '', 'active' => false, 'id' => 'tab2'),
+        array('label'=> Yii::t('main', 'Packages'), 'content'=> '', 'active' => false, 'id' => 'tab3'),
+      )));
+      
 ?>
-  
-    <div class="control-group">
-        <?php echo TbHtml::activeLabelEx($model,'name', array('class'=>'control-label')); ?>
-        <div class="controls">
-            <?php echo TbHtml::activeTextField($model, 'name', array()); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <?php echo TbHtml::activeLabelEx($model,'surname', array('class'=>'control-label')); ?>
-        <div class="controls">
-            <?php echo TbHtml::activeTextField($model, 'surname', array()); ?>
-        </div>
-    </div>
-        
     <div class="buttons">
         <? echo TbHtml::submitButton($model->isNewRecord ? Yii::t('main','Create') : Yii::t('main','Save'),array('class'=>'fl-r'))?>
     </div>
-  
+    
+
 <?php
 $this->endWidget();    
 ?>

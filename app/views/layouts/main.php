@@ -35,9 +35,6 @@
 			padding-bottom: 40px;
 		}
 	</style>
-
-	<link rel="stylesheet" href="css/main.css">
-
 	<script src="<?=Yii::app()->createAbsoluteUrl('/')?>/js/libs/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
@@ -95,6 +92,7 @@
 <div id="main" class="clearfix" style="margin: 0 auto; width: 90%;">
 <?php echo $content; ?>
 </div>
+<?Yii::app()->clientScript->registerCoreScript('jquery');?>
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 <!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>-->
 <script src="<?=Yii::app()->createAbsoluteUrl('/')?>/js/libs/bootstrap.min.js"></script>
