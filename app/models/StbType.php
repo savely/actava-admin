@@ -60,10 +60,10 @@ class StbType extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => __('ID'),
-            'name' => __('Name'),
-            'engine' => __('Engine'),
-			'fw_auto_upgrade' => __('Auto upgrade'),
+			'id' => Yii::t('main','ID'),
+            'name' => Yii::t('main','Name'),
+            'engine' => Yii::t('main','Engine'),
+			'fw_auto_upgrade' => Yii::t('main','Auto upgrade'),
 		);
 	}
 
@@ -86,3 +86,4 @@ class StbType extends CActiveRecord
 		));
 	}
 }
+?>

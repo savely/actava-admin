@@ -110,8 +110,8 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => __('ID'),
-			'account_id' => __('Account'),
+			'id' => Yii::t('main','ID'),
+			'account_id' => Yii::t('main','Account'),
 		);
 	}
 
@@ -134,3 +134,4 @@ class User extends CActiveRecord
 		));
 	}
 }
+?>

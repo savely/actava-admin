@@ -66,8 +66,8 @@ class Stb extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => __('ID'),
-			'account_id' => __('Account'),
+			'id' => Yii::t('main','ID'),
+			'account_id' => Yii::t('main','MAC'),
 		);
 	}
 
@@ -90,3 +90,4 @@ class Stb extends CActiveRecord
 		));
 	}
 }
+?>

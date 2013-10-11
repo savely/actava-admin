@@ -60,10 +60,10 @@ class lang extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => __('ID'),
-            'name' => __('Name'),
-            'locale' => __('Locale'),
-			'prefix' => __('Prefix'),
+			'id' => Yii::t('main','ID'),
+            'name' => Yii::t('main','Name'),
+            'locale' => Yii::t('main','Locale'),
+			'prefix' => Yii::t('main','Prefix'),
 		);
 	}
 
@@ -86,3 +86,4 @@ class lang extends CActiveRecord
 		));
 	}
 }
+?>
